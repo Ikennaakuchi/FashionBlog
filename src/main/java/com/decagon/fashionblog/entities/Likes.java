@@ -1,5 +1,6 @@
 package com.decagon.fashionblog.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,36 +15,32 @@ public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long likeId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id",
-                referencedColumnName = "id",
-                nullable = false,
-                foreignKey = @ForeignKey(name = "user_like_id_fk"))
-    private User user;
+    @JsonIgnore
+    @JoinColumn(name = "userId",
+                foreignKey = @ForeignKey(name = "user_likes_id_fk"))
+    private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "post_id",
-                referencedColumnName = "id",
-                nullable = false,
-                foreignKey = @ForeignKey(name = "post_like_id_fk"))
+    @JsonIgnore
+    @JoinColumn(name = "postId",
+                foreignKey = @ForeignKey(name = "post_likes_id_fk"))
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "comment_id",
-                referencedColumnName = "id",
-                nullable = false,
+    @JsonIgnore
+    @JoinColumn(name = "commentId",
                 foreignKey = @ForeignKey(name = "comment_like_id_fk"))
     private Comment comment;
-
     @Override
     public String toString() {
         return "Likes{" +
-                "id=" + id +
-                ", user=" + user +
-                ", post=" + post +
-                ", comment=" + comment +
+                "id=" + likeId +
+                ", users=" + ((users.getUserId() != null) ? users.getUserId() : null) +
+                ", post=" + ((post.getPostId() != null) ? post.getPostId() : null)  +
+                ", comment=" + ((comment.getCommentId() != null) ? comment.getCommentId() : null) +
                 '}';
     }
 }

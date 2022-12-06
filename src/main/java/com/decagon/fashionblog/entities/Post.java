@@ -15,14 +15,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "posts")
+@Table(name = "post")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long postId;
+
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "body")
-    private String body;
+    private String postBody;
 
     @Column(name = "time_created")
     private LocalDateTime createdAt;
@@ -31,30 +34,31 @@ public class Post {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id",
-                referencedColumnName = "id",
-                nullable = false,
-                foreignKey = @ForeignKey(name = "post_user_id_fk"))
-    private User user;
-
+    @JoinColumn(name = "usersId",
+                foreignKey = @ForeignKey(name = "user_posts_id_fk"))
+    private Users users;
     @OneToMany(mappedBy = "post",
                 orphanRemoval = true,
                 cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "post",
             orphanRemoval = true,
             cascade = CascadeType.ALL)
-    private List<Likes> likes = new ArrayList<>();
+    private List<Likes> likesList = new ArrayList<>();
 
     @Override
     public String toString() {
         return "Post{" +
-                "id=" + id +
-                ", body='" + body + '\'' +
-                ", user=" + user +
-                ", comments=" + comments +
-                ", likes=" + likes +
+                "postId=" + postId +
+                ", title='" + title + '\'' +
+                ", postBody='" + postBody + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", users=" + users +
+                ", commentList=" + commentList +
+                ", likesList=" + likesList +
                 '}';
     }
 }
+

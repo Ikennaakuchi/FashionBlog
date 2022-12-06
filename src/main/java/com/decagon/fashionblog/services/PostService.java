@@ -6,9 +6,11 @@ import com.decagon.fashionblog.pojos.PostDto;
 import java.util.List;
 
 public interface PostService {
-    Post createPost(PostDto postDto, String role);
+    Post createPost(PostDto postDto, Long adminId);
     List<PostDto> getAllPosts();
-    Post getPost();
-    Post updatePost();
-    void deletePost();
+    PostDto getPost(Long postId);
+    List<PostDto> searchPost(String title);
+    Post updatePost(Long postId, PostDto postDto);
+    void likePost(Long postId, Long userId);
+    void deletePost(Long postId);
 }
