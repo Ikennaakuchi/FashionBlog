@@ -22,7 +22,6 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
-    private final LikeServiceImpl likeService;
     private final UserRepository userRepository;
 
     @Override
@@ -94,12 +93,12 @@ public class PostServiceImpl implements PostService {
         Optional<Likes> liked = likeRepository.findLikeByPostAndUsers(likedPost, currentUsers);
 
         if(liked.isPresent()){
-            likeService.removeLike(liked.get().getLikeId());
+            likeRepository.deleteById(liked.get().getLikeId());
         } else {
             Likes newLikes = new Likes();
             newLikes.setPost(likedPost);
             newLikes.setUsers(currentUsers);
-            likeService.addLike(newLikes);
+            likeRepository.save(newLikes);
         }
     }
 
