@@ -1,4 +1,4 @@
-package com.decagon.fashionblog;
+package com.decagon.fashionblog.enums;
 
 public enum Role {
     ADMIN,
